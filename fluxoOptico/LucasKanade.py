@@ -3,16 +3,16 @@ import cv2
 import os
 
 # Parâmetros para detecção de features
-feature_params = dict(maxCorners=150, qualityLevel=0.3, minDistance=10, blockSize=10)
+feature_params = dict(maxCorners=150, qualityLevel=0.2, minDistance=5, blockSize=10)
 
 # Parâmetros para o Lucas-Kanade
-lk_params = dict(winSize=(15, 15), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
+lk_params = dict(winSize=(40, 40), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.04))
 
 # Cores aleatórias
 color = np.random.randint(0, 255, (150, 3))
 
 # Diretório das imagens
-dir_imagens = 'fluxoOptico/imgs'
+dir_imagens = 'fluxoOptico/exemplo'
 
 # Ordenar os nomes dos arquivos
 arquivos = sorted(os.listdir(dir_imagens))
