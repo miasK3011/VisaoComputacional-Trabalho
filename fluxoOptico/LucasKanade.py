@@ -12,7 +12,7 @@ lk_params = dict(winSize=(40, 40), maxLevel=2, criteria=(cv2.TERM_CRITERIA_EPS |
 color = np.random.randint(0, 255, (150, 3))
 
 # Diretório das imagens
-dir_imagens = 'fluxoOptico/exemplo'
+dir_imagens = 'fluxoOptico/imgs'
 
 # Ordenar os nomes dos arquivos
 arquivos = sorted(os.listdir(dir_imagens))
