@@ -6,19 +6,19 @@ import numpy as np
 GOOD_THRESHOLD = 0.60
 
 # Parâmetros SIFT
-nFeatures = 10000  # Quantidade de melhores pontos, são ranqueados baseado no seu score. (máxima)
+nFeatures = 1000  # Quantidade de melhores pontos, são ranqueados baseado no seu score. (máxima)
 edgeThreshold = (
     10  # Filtro de borda, quanto maior o valor, menos pontos na borda são filtrados
 )
-contrastTreshold = 0.01  # Parametro para filtrar pontos em regiões semi uniformes. Maior o valor, menos pontos são produzidos.
-sigma = 1  # Sigma do gaussiano. Se a imagem estiver borrada é bom diminuir.
+contrastTreshold = 0.15  # Parametro para filtrar pontos em regiões semi uniformes. Maior o valor, menos pontos são produzidos.
+sigma = 1.6  # Sigma do gaussiano. Se a imagem estiver borrada é bom diminuir.
 octaveLayers = (
     10  # Quantidade de camadas em cada oitava, influencia o contrastThreshold.
 )
 
 # Parâmetros ORB
-fastThreshold = 0
-nonmaxSuppression = 10001
+fastThreshold = 800
+nonmaxSuppression = False
 
 img1 = cv.imread("imgs/exemplo.png", cv.IMREAD_GRAYSCALE)  # queryImage
 img2 = cv.imread("imgs/exemplo2.png", cv.IMREAD_GRAYSCALE)  # trainImage
@@ -98,7 +98,7 @@ img3 = cv.drawMatchesKnn(
     kp1,
     img2,
     kp2,
-    matchesFastSift[::4],
+    matchesFastSift[::20],
     None,
     flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS,
 )
@@ -107,7 +107,7 @@ img4 = cv.drawMatchesKnn(
     kp1,
     img2,
     kp2,
-    matchesFastOrb[::4],
+    matchesFastOrb[::20],
     None,
     flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS,
 )
@@ -116,7 +116,7 @@ img5 = cv.drawMatchesKnn(
     kp1S,
     img2,
     kp2S,
-    matchesSift[::200],
+    matchesSift[::30],
     None,
     flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS,
 )
