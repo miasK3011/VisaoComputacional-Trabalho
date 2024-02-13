@@ -1,0 +1,2 @@
+origem = 53x14 pixel
+fim = 153x20 pixel
