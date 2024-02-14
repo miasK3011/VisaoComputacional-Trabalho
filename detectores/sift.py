@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 edgeThreshold = (
-    3.5  # Filtro de borda, quanto maior o valor, menos pontos na borda são filtrados
+    10  # Filtro de borda, quanto maior o valor, menos pontos na borda são filtrados
 )
 
 img = cv.imread("imgs/dsc02651.jpg", cv.IMREAD_GRAYSCALE)
 img2 = cv.imread("imgs/dsc02652.jpg", cv.IMREAD_GRAYSCALE)
 sift = cv.SIFT.create(
-    nfeatures=100,
+    nfeatures=80,
     edgeThreshold=edgeThreshold,
 )
 
@@ -59,33 +59,3 @@ img5 = cv.drawMatches(
     flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS,
 )
 plt.title("Descritor SIFT"), plt.imshow(img5), plt.show()
-
-# Descritor ORB
-orb = cv.ORB.create()
-_, des1_orb = orb.compute(img, kp1)
-_, des2_orb = orb.compute(img2, kp2)
-
-bf_orb = cv.BFMatcher(cv.NORM_HAMMING, crossCheck=False)
-
-matches_orb = bf_orb.knnMatch(des1_orb, des2_orb, k=2)
-
-good_matches_orb = []
-for m, n in matches_orb:
-    if m.distance < 0.75 * n.distance:
-        good_matches_orb.append(m)
-
-img6 = cv.drawMatches(
-    img,
-    kp1,  
-    img2,
-    kp2,
-    good_matches_orb,
-    None,
-    flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS,
-)
-
-plt.figure(figsize=(10, 5))
-plt.imshow(cv.cvtColor(img6, cv.COLOR_BGR2RGB)) 
-plt.title("Boas Correspondências com Descritor ORB")
-plt.axis("off")
-plt.show()

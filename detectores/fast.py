@@ -6,7 +6,7 @@ img = cv.imread("imgs/dsc02651.jpg", cv.IMREAD_GRAYSCALE)
 img2 = cv.imread("imgs/dsc02652.jpg", cv.IMREAD_GRAYSCALE)
 
 fast = cv.FastFeatureDetector.create(
-    threshold=120, type=cv.FAST_FEATURE_DETECTOR_TYPE_9_16, nonmaxSuppression=False
+    threshold=110, type=cv.FAST_FEATURE_DETECTOR_TYPE_9_16, nonmaxSuppression=False
 )
 kp1 = fast.detect(img, None)
 kp2 = fast.detect(img2, None)
@@ -40,7 +40,7 @@ matches = bf.knnMatch(des1, des2, k=2)
 
 good_matches = []
 for m,n in matches:
-    if m.distance < 0.51 * n.distance:
+    if m.distance < 0.60 * n.distance:
         good_matches.append(m)
 
 print(f"{len(good_matches)} boas correspondências encontradas")
@@ -80,4 +80,32 @@ plt.imshow(img2_keypoints, cmap='gray')
 plt.title("Pontos Correspondentes Imagem 2")
 plt.axis("off")
 
+plt.show()
+
+# DESCRIÇÃO COM ORB
+orb = cv.ORB.create()
+_, des1_orb = orb.compute(img, kp1)
+_, des2_orb = orb.compute(img2, kp2)
+bf_orb = cv.BFMatcher(cv.NORM_HAMMING, crossCheck=False)
+
+matches_orb = bf_orb.knnMatch(des1_orb, des2_orb, k=2)
+good_matches_orb = []
+for m, n in matches_orb:
+    if m.distance < 0.50 * n.distance:
+        good_matches_orb.append(m)
+
+img6 = cv.drawMatches(
+    img,
+    kp1,  
+    img2,
+    kp2,
+    good_matches_orb,
+    None,
+    flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS,
+)
+
+plt.figure(figsize=(10, 5))
+plt.imshow(cv.cvtColor(img6, cv.COLOR_BGR2RGB)) 
+plt.title("Boas Correspondências com Descritor ORB")
+plt.axis("off")
 plt.show()
